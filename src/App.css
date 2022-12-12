@@ -12,7 +12,7 @@ body {
   place-items: center;
   -webkit-user-select: none;
   user-select: none;
-}
+} 
 .score {
   position: absolute;
   top: 1rem;
