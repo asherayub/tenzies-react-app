@@ -10,8 +10,24 @@ body {
   font-family: "Karla", sans-serif;
   display: grid;
   place-items: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
-
+.score {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #59e391;
+  border-left: 5px solid currentColor;
+  padding: 0 0 0 1rem;
+}
+.score h2,
+.score h3 {
+  margin: 0;
+}
+.score h2 {
+  margin-bottom: 0.5rem;
+}
 main {
   background-color: #f5f5f5;
   height: 400px;
@@ -24,14 +40,14 @@ main {
   align-items: center;
   /* position: relative; */
 }
-.roll-count{
+.roll-count {
   margin: 0;
   position: absolute;
   top: 10px;
   right: 10px;
-  color: #59E391;
+  color: #59e391;
 }
-.roll-count h2{
+.roll-count h2 {
   margin: 0;
 }
 .title {

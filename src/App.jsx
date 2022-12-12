@@ -6,12 +6,22 @@ import "./App.css";
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice());
   const [tenzies, setTenzies] = React.useState(false);
+  const [highScore, setHighScore] = React.useState({ score: 0 });
   React.useEffect(() => {
-    const allHeld = dice.every((die) => die.isHeld);
-    const firstValue = dice[0].value;
-    const allSameValue = dice.every((die) => die.value === firstValue);
-    if (allHeld && allSameValue) {
+    const firstDieValue = dice[0].value;
+    if (
+      dice.every((die) => die.value === firstDieValue) &&
+      dice.every((die) => die.isHeld)
+    ) {
       setTenzies(true);
+      if (localStorage.getItem("highScore") === null) {
+        localStorage.setItem("highScore", JSON.stringify(highScore));
+      } else {
+        const oldHighScore = JSON.parse(localStorage.getItem("highScore"));
+        if (oldHighScore.score > highScore.score) {
+          localStorage.setItem("highScore", JSON.stringify(highScore));
+        }
+      }
     }
   }, [dice]);
 
@@ -38,9 +48,13 @@ export default function App() {
           return die.isHeld ? die : generateNewDie();
         })
       );
-      
+      setHighScore((oldHighScore) => ({
+        ...oldHighScore,
+        score: oldHighScore.score + 1,
+      }));
     } else {
       setTenzies(false);
+      setHighScore({ score: 0 });
       setDice(allNewDice());
     }
   }
@@ -61,10 +75,18 @@ export default function App() {
       holdDice={() => holdDice(die.id)}
     />
   ));
-
+  // getting the high score from local storage and parsing it to make it an object
+  let locallyStoredHighScore = JSON.parse(localStorage.getItem("highScore"));
   return (
     <>
       {tenzies && <Confetti />}
+      <div className="score">
+        <h2>Rolls: {highScore.score}</h2>
+        <h3>
+          Best Min Rolls:{" "}
+          {locallyStoredHighScore && locallyStoredHighScore.score}
+        </h3>
+      </div>
       <main>
         <h1 className="title">Tenzies</h1>
         <p className="instructions">
